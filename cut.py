@@ -126,10 +126,6 @@ def draw_cut(df:pl.DataFrame, XColumn:str, XParameters:list, YColumn:str, YParam
 
     plt.show(block=True)
     
-    # Add loop to block execution until window is closed
-    while plt.get_fignums():
-        plt.pause(0.05)
-
     handler.cuts["cut_0"].name = "cut"
     write_cut_json(handler.cuts["cut_0"], OutputFile)
     

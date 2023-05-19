@@ -20,9 +20,16 @@ class histogrammer:
     def __init__(self, df: pl.DataFrame):
         self.df = df
     
-    def histo1d(self, column: str, x_parameters:list, ax:plt.Axes, label=None, display_stats=True):
+    def histo1d(self, column: str, x_parameters:list, ax:plt.Axes=None, label=None, display_stats=None):
+        
+        if ax == None:
+            fig, ax = plt.subplots(1,1)
+        else:
+            fig = ax.figure
+           
         bins, initial, final = x_parameters
         counts, bins, _ = ax.hist(self.df[column], bins=bins, range=(initial, final), histtype='step', label=label)
+        ax.set_xlim(initial,final)
         ax.set_xlabel(column)
         ax.set_ylabel("Counts")
         if label is not None:
@@ -30,8 +37,8 @@ class histogrammer:
         ax.minorticks_on()
         ax.tick_params(axis='both', which='minor', direction='in', top=True, right=True, left=True, bottom=True, length=2)
         ax.tick_params(axis='both', which='major', direction='in', top=True, right=True, left=True, bottom=True, length=5)
-        
-        if display_stats:
+    
+        if display_stats == True:
             data = np.array(self.df[column])
             bin_width = bins[1] - bins[0]
             bin_indices = np.digitize(data, bins) - 1
@@ -59,14 +66,26 @@ class histogrammer:
                 ax.figure.canvas.draw()
                 
             ax.callbacks.connect('xlim_changed', update_stats)
-            
+        
+        
+        return fig
     
-    def histo2d(self, x_column, x_parameters, y_column, y_parameters, ax):
+    def histo2d(self, x_column: str, x_parameters: list, y_column: str, y_parameters: list, ax:plt.Axes=None):
+        
+        if ax == None:
+            fig, ax = plt.subplots(1,1)
+        else:
+            fig = ax.figure
+    
         x_bins, x_initial, x_final = x_parameters
         y_bins, y_initial, y_final = y_parameters
         ax.hist2d(self.df[x_column], self.df[y_column], bins=[x_bins, y_bins],range=[[x_initial, x_final], [y_initial, y_final]], norm=colors.LogNorm())
+        ax.set_xlim(x_initial,x_final)
+        ax.set_ylim(y_initial,y_final)
         ax.set_xlabel(x_column)
         ax.set_ylabel(y_column)
         ax.minorticks_on()
         ax.tick_params(axis='both', which='minor', direction='in', top=True, right=True, left=True, bottom=True, length=2)
         ax.tick_params(axis='both', which='major', direction='in', top=True, right=True, left=True, bottom=True, length=5)
+        
+        return fig
