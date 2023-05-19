@@ -1,3 +1,15 @@
+'''
+This a just histogram class with the settings I like to use.
+
+For 1d histograms I also allow you display stats like mean, stdev, and Intergral.  This also updates when you zoom in (like ROOT lol)
+
+To call this, 
+    import histogrammer
+    
+    histogrammer.histo1d(variables)
+'''
+
+
 import polars as pl
 import matplotlib.pyplot as plt
 import numpy as np

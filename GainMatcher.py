@@ -10,7 +10,9 @@ I then extracted all this information and basically preformmed a 2nd order calib
 
 With this information, I created a new column "Cebra{det_num}Energy_GainMatched".  This column now allows me to add all the runs together and to view the spectrum.
     
-This file is going to assume that the data was fitted using HDTV and the user saved the fit files for each detector and run using the name scheme run_{run_num}_det_{det_num}.fit
+This file is going to assume that the data was fitted using HDTV and the user saved the fit files for each detector and run
+
+Note that I had to fit like 5000 guassians, so I recommend using a scriptting program like HDTV for this
 '''
 
 import xml.etree.ElementTree as ET
@@ -165,7 +167,6 @@ def GainMatchCalibrationRetriever(InitialRunFitFile: str, RunFitFile: str):
     GainMatchCalibrationValues = popt
     return GainMatchCalibrationValues
     
-
 '''
 I am now going to read in a built .parquet file and create a copy of the Cebra0Energy to a column called Cebra0EnergyRaw.  
 
