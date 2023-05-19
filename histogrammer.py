@@ -20,7 +20,7 @@ class histogrammer:
     def __init__(self, df: pl.DataFrame):
         self.df = df
     
-    def histo1d(self, column: str, x_parameters:list, ax:plt.Axes=None, label=None, display_stats=None):
+    def histo1d(self, column: str, x_parameters:list, ax:plt.Axes=None, label=None, display_stats=None, xlabel=None):
         
         if ax == None:
             fig, ax = plt.subplots(1,1)
@@ -30,10 +30,16 @@ class histogrammer:
         bins, initial, final = x_parameters
         counts, bins, _ = ax.hist(self.df[column], bins=bins, range=(initial, final), histtype='step', label=label)
         ax.set_xlim(initial,final)
-        ax.set_xlabel(column)
         ax.set_ylabel("Counts")
+        
         if label is not None:
             ax.legend(loc='upper left')
+            
+        if label is not None:
+            ax.set_xlabel(xlabel)
+        else:
+            ax.set_xlabel(column)
+            
         ax.minorticks_on()
         ax.tick_params(axis='both', which='minor', direction='in', top=True, right=True, left=True, bottom=True, length=2)
         ax.tick_params(axis='both', which='major', direction='in', top=True, right=True, left=True, bottom=True, length=5)
